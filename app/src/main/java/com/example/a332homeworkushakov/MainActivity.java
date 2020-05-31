@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView;
     private Spinner languageSpinner;
     private Spinner colorSpinner;
-
+    private Locale locale;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,33 +39,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(languageSpinner.getSelectedItem().toString().contains("Русский")){
-                    Locale locale = new Locale("ru");
-                    Configuration config = new Configuration();
-                    config.setLocale(locale);
-                    getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-                    if(colorSpinner.getSelectedItem().toString().contains("Черный")){
-                        Utils.changeToTheme(MainActivity.this, Utils.THEME_DEFAULT);
-                    } else if (colorSpinner.getSelectedItem().toString().contains("Синий")){
-                        Utils.changeToTheme(MainActivity.this, Utils.THEME_BLUE);
-                    } else if (colorSpinner.getSelectedItem().toString().contains("Зеленый")) {
-                        Utils.changeToTheme(MainActivity.this, Utils.THEME_GREEN);
-                    }
-                    recreate();
-                } else if (languageSpinner.getSelectedItem().toString().contains("English")){
-                    Locale locale = new Locale("en");
-                    Configuration config = new Configuration();
-                    config.setLocale(locale);
-                    getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-                    if(colorSpinner.getSelectedItem().toString().contains("Черный")){
-                        Utils.changeToTheme(MainActivity.this, Utils.THEME_DEFAULT);
-                    } else if (colorSpinner.getSelectedItem().toString().contains("Синий")){
-                        Utils.changeToTheme(MainActivity.this, Utils.THEME_BLUE);
-                    } else if (colorSpinner.getSelectedItem().toString().contains("Зеленый")) {
-                        Utils.changeToTheme(MainActivity.this, Utils.THEME_GREEN);
-                    }
-                    recreate();
-                }
+                changeLanguage();
+                changeColor();
             }
         });
 
@@ -82,6 +57,30 @@ public class MainActivity extends AppCompatActivity {
         colorSpinner.setAdapter(colorAdapter);
 
 
+    }
+
+    private void changeLanguage(){
+        if(languageSpinner.getSelectedItem().toString().contains("Русский")){
+            locale = new Locale("ru");
+        } else {
+            locale = new Locale("en");
+        }
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        getResources().updateConfiguration(config, getBaseContext().getResources()
+                .getDisplayMetrics());
+        recreate();
+
+    }
+
+    private void changeColor(){
+        if(colorSpinner.getSelectedItem().toString().contains("Черный")){
+            Utils.changeToTheme(MainActivity.this, Utils.THEME_DEFAULT);
+        } else if (colorSpinner.getSelectedItem().toString().contains("Синий")){
+            Utils.changeToTheme(MainActivity.this, Utils.THEME_BLUE);
+        } else if (colorSpinner.getSelectedItem().toString().contains("Зеленый")) {
+            Utils.changeToTheme(MainActivity.this, Utils.THEME_GREEN);
+        }
     }
 
 
